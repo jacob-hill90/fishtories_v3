@@ -4,7 +4,7 @@ from django.utils import timezone
 
 
 class Catch(models.Model):
-    """Minimal private catch journal record; refine fields during v3 port."""
+    """A private fishing journal entry owned by exactly one account."""
 
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -14,6 +14,10 @@ class Catch(models.Model):
     species = models.CharField(max_length=120)
     caught_at = models.DateTimeField(default=timezone.now)
     location_name = models.CharField(max_length=255, blank=True)
+    # Keep measurements optional while the journal is taking shape.
+    # Use explicit units rather than mixing inches/cm or pounds/kg.
+    weight_lb = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
+    length_in = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
     notes = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

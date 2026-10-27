@@ -1,0 +1,247 @@
+/* Step 4: Catch journal (keeps the FishTories v3 hero, footer, and colors). */
+.journal-page {
+  background: #eff8f4;
+  min-height: 70vh;
+  padding: 58px clamp(20px, 5vw, 90px) 95px;
+}
+.journal-container {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.journal-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 28px;
+  margin-bottom: 32px;
+}
+.journal-heading .eyebrow {
+  margin-bottom: 12px;
+}
+.journal-heading h1 {
+  color: #0d3c40;
+  font-size: clamp(38px, 5vw, 60px);
+  line-height: 1.1;
+  letter-spacing: -2px;
+  margin-bottom: 13px;
+}
+.journal-heading p:not(.eyebrow) {
+  color: #56766f;
+  margin: 0;
+  line-height: 1.6;
+}
+.journal-heading-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.journal-editor,
+.journal-card {
+  background: white;
+  border: 1px solid #d6e6e1;
+  border-radius: 18px;
+  box-shadow: 0 7px 22px #094b3812;
+}
+.journal-editor {
+  padding: clamp(22px, 4vw, 35px);
+  margin-bottom: 36px;
+}
+.journal-editor-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+.journal-editor-heading h2 {
+  font-size: 29px;
+  margin-bottom: 25px;
+}
+.journal-editor-heading .eyebrow {
+  margin-bottom: 9px;
+}
+.catch-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.catch-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+.catch-field-wide {
+  grid-column: 1 / -1;
+}
+.catch-field label {
+  color: #24484d;
+  font-size: 13px;
+  font-weight: 750;
+}
+.catch-field input,
+.catch-field textarea {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid #b8d5d0;
+  border-radius: 9px;
+  background: #fff;
+  color: #163641;
+  font: inherit;
+}
+.catch-field input:focus-visible,
+.catch-field textarea:focus-visible {
+  outline: 2px solid #0b917c;
+  outline-offset: 2px;
+}
+.catch-field small {
+  color: #647d75;
+  line-height: 1.5;
+}
+.catch-form-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+.catch-form-actions button {
+  min-width: 160px;
+}
+.journal-list-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+.journal-list-heading h2 {
+  font-size: 28px;
+  margin: 0;
+}
+.journal-list-heading span {
+  color: #52736b;
+  font-size: 14px;
+}
+.journal-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 16px;
+}
+.journal-card {
+  display: flex;
+  padding: 24px;
+  gap: 19px;
+  align-items: flex-start;
+}
+.journal-catch-icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  font-size: 23px;
+  background: #e0f4e8;
+  border-radius: 13px;
+  flex: 0 0 auto;
+}
+.journal-catch-body {
+  min-width: 0;
+  flex: 1;
+}
+.journal-catch-body h3 {
+  font-size: 22px;
+  color: #154d44;
+  margin: 0 0 8px;
+  overflow-wrap: anywhere;
+}
+.journal-muted {
+  color: #5d7771;
+  line-height: 1.55;
+}
+.journal-catch-body .journal-muted {
+  font-size: 13px;
+  margin: 0 0 13px;
+}
+.catch-measurements {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.catch-measurements span {
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 750;
+  color: #16584b;
+  background: #ddf3e9;
+  border-radius: 999px;
+}
+.journal-notes {
+  color: #415d59;
+  line-height: 1.65;
+  margin: 13px 0 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.journal-card-actions {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.button-danger {
+  background: #fff0ee;
+  color: #a13d32;
+  border-color: #f0c1bc;
+}
+.journal-notice {
+  padding: 16px;
+  margin: 0 0 22px;
+}
+.journal-empty {
+  background: #fff;
+  padding: 50px 20px;
+}
+.journal-empty .button {
+  margin-top: 20px;
+}
+.empty-catches .button {
+  margin-top: 20px;
+}
+@media (max-width: 780px) {
+  .journal-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .journal-card {
+    flex-wrap: wrap;
+  }
+  .journal-card-actions {
+    flex: 1 0 100%;
+    justify-content: flex-start;
+  }
+}
+@media (max-width: 540px) {
+  .catch-form {
+    grid-template-columns: 1fr;
+  }
+  .journal-page {
+    padding: 36px 18px 70px;
+  }
+  .journal-card {
+    padding: 18px;
+    gap: 13px;
+  }
+  .journal-heading-actions {
+    width: 100%;
+  }
+  .journal-heading-actions .button {
+    flex: 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .site-header .header-catches-link {
+    display: inline-block;
+    font-size: 12px;
+    padding: 8px 5px;
+  }
+}
