@@ -1,0 +1,41 @@
+/* Milestone 6: Private catch map and the optional catch-location picker */
+.catch-map-page { min-height: 70vh; background: #f7faf8; padding: clamp(2rem, 5vw, 4rem) 1rem; }
+.catch-map-container { width: min(1150px, 100%); margin: auto; }
+.catch-map-heading { display: flex; align-items: center; justify-content: space-between; gap: 2rem; margin-bottom: 1.75rem; }
+.catch-map-heading h1 { margin: .3rem 0 .6rem; font-size: clamp(2rem, 4vw, 3.1rem); color: #183e3c; }
+.catch-map-heading p { margin: 0; max-width: 700px; color: #4c6560; }
+.catch-map-canvas { position: relative; height: min(67vh, 600px); min-height: 360px; border-radius: 18px; overflow: hidden; border: 1px solid #cadbd4; background: #dfebe6; box-shadow: 0 12px 32px rgba(17, 70, 58, .09); }
+.map-summary { display: flex; gap: 1.5rem; align-items: center; padding: 1rem 0; color: #365651; flex-wrap: wrap; }
+.map-summary strong { color: #155748; }
+.map-empty { padding: 1.25rem 1.5rem; background: #eef8f3; border: 1px solid #cbe8da; border-radius: 15px; margin: .5rem 0 1rem; }
+.map-empty h2 { font-size: 1.15rem; margin: .3rem 0 .5rem; color: #164f45; }
+.map-empty p { color: #4e6a62; }
+.map-privacy-note { color: #546a64; font-size: .85rem; line-height: 1.5; margin: 1rem 0 0; }
+.map-error { background: #fff3e7; color: #77420b; border: 1px solid #efcb9f; border-radius: 10px; padding: .75rem 1rem; margin: .75rem 0; }
+.catch-popup strong { color: #175c4b; font-size: .95rem; }
+.catch-popup p { color: #4c6560; font-size: .82rem; margin: .35rem 0 0; }
+.catch-location-picker { width: 100%; }
+.map-picker-header { display: flex; justify-content: space-between; gap: .6rem; flex-wrap: wrap; margin-bottom: .65rem; }
+.map-picker-header strong { color: #183e3c; }
+.map-picker-header span { color: #526b65; font-size: .82rem; }
+.map-picker-canvas { position: relative; height: 320px; width: 100%; border-radius: 14px; overflow: hidden; border: 1px solid #cbdad4; background: #e4f0ea; }
+.map-picker-status { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .7rem; margin: .7rem 0; font-size: .88rem; color: #225b4c; }
+.catch-location-picker > small { display: block; color: #586d66; line-height: 1.45; }
+.journal-pin-tag { color: #166650; font-weight: 600; }
+.profile-map-actions { display: flex; flex-wrap: wrap; gap: .7rem; }
+@media(max-width:700px) { .catch-map-heading { flex-direction: column; align-items: flex-start; } .catch-map-canvas { min-height: 340px; height: 54vh; } .map-picker-canvas { height: 260px; } }
+
+/* Milestone 7: switch between private journal and shared community map */
+.map-view-switch { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .5rem; padding: .45rem; background: #e1eee8; border-radius: 12px; margin-bottom: 1.2rem; }
+.map-view-button { cursor: pointer; padding: .75rem 1rem; border: 0; border-radius: 9px; background: transparent; color: #285b50; font: inherit; font-weight: 700; }
+.map-view-button.active { background: white; color: #104b3f; box-shadow: 0 2px 9px #0b483220; }
+.map-view-button:focus-visible { outline: 3px solid #258872; outline-offset: 2px; }
+.catch-popup { max-width: 280px; overflow-wrap: anywhere; }
+.catch-popup-story { white-space: pre-wrap; max-height: 140px; overflow: auto; border-top: 1px solid #d6e7e0; padding-top: .5rem; }
+
+
+/* Milestone 8: photos shown in map popups, never inserted as HTML */
+.catch-popup-photo { display: block; width: 100%; max-width: 275px; max-height: 190px; object-fit: contain; margin: .6rem 0; border-radius: 8px; background: #edf4ef; }
+
+/* Keep map-page headings legible at laptop widths. */
+.catch-map-heading h1 { letter-spacing: -0.02em; line-height: 1.15; text-wrap: balance; }

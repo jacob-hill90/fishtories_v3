@@ -6,9 +6,12 @@ import Login from './pages/Login.jsx';
 import Profile from './pages/Profile.jsx';
 import Catches from './pages/Catches.jsx';
 import FishDatabase from './pages/FishDatabase.jsx';
+import CatchMap from './pages/CatchMap.jsx';
 import Register from './pages/Register.jsx';
+import Weather from './pages/Weather.jsx';
+import useWeather from './weather/useWeather.js';
 
-const paths = new Set(['/', '/login', '/register', '/profile', '/catches', '/fish']);
+const paths = new Set(['/', '/login', '/register', '/profile', '/catches', '/fish', '/map', '/weather']);
 function currentPath() {
   return paths.has(window.location.pathname) ? window.location.pathname : '/';
 }
@@ -16,10 +19,13 @@ function currentPath() {
 export default function App() {
   const [path, setPath] = useState(currentPath);
   const [user, setUser] = useState(null);
+  // Refresh the avatar image URL after an upload/replacement (same endpoint).
+  const [avatarRevision, setAvatarRevision] = useState(0);
   const [checkingSession, setCheckingSession] = useState(true);
   const [authError, setAuthError] = useState('');
   const [loggingOut, setLoggingOut] = useState(false);
   const [apiState, setApiState] = useState({ kind: 'checking', message: 'Checking Django API…' });
+  const weatherTools = useWeather(Boolean(user));
 
   const navigate = useCallback((nextPath, replace = false) => {
     const safePath = paths.has(nextPath) ? nextPath : '/';
@@ -67,9 +73,14 @@ export default function App() {
 
   useEffect(() => {
     if (checkingSession) return;
-    if ((path === '/profile' || path === '/catches') && !user) navigate('/login', true);
+    if ((path === '/profile' || path === '/catches' || path === '/weather') && !user) navigate('/login', true);
     if (user && (path === '/login' || path === '/register')) navigate('/profile', true);
   }, [checkingSession, path, user, navigate]);
+
+  function handleAvatarChanged(nextUser) {
+    setUser(nextUser);
+    setAvatarRevision((current) => current + 1);
+  }
 
   function handleLogin(currentUser) {
     setUser(currentUser);
@@ -104,25 +115,35 @@ export default function App() {
     content = <Register onBack={() => navigate('/')} onLogin={() => navigate('/login')} />;
   } else if (path === '/login' && !user) {
     content = <Login onBack={() => navigate('/')} onRegister={() => navigate('/register')} onLogin={handleLogin} />;
+  } else if (path === '/weather' && user) {
+    content = <Weather weather={weatherTools.weather} onUseMyLocation={weatherTools.useBrowserLocation}
+      onChooseCity={weatherTools.chooseCity} searchCities={weatherTools.searchCities} />;
   } else if (path === '/fish') {
     content = <FishDatabase onNavigate={navigate} user={user} />;
   } else if (path === '/profile' && user) {
-    content = <Profile onNavigate={navigate} onSessionExpired={handleSessionExpired} />;
+    content = <Profile onNavigate={navigate} onSessionExpired={handleSessionExpired} onAvatarChanged={handleAvatarChanged} avatarRevision={avatarRevision} />;
   } else if (path === '/catches' && user) {
     content = <Catches onNavigate={navigate} onSessionExpired={handleSessionExpired} />;
+  } else if (path === '/map') {
+    content = <CatchMap user={user} onNavigate={navigate} onSessionExpired={handleSessionExpired} />;
   } else if ((path === '/login' || path === '/register') && user) {
-    content = <Profile onNavigate={navigate} onSessionExpired={handleSessionExpired} />;
-  } else if (path === '/profile' || path === '/catches') {
+    content = <Profile onNavigate={navigate} onSessionExpired={handleSessionExpired} onAvatarChanged={handleAvatarChanged} avatarRevision={avatarRevision} />;
+  } else if (path === '/profile' || path === '/catches' || path === '/weather') {
     content = <section className="session-loading">Redirecting to login…</section>;
   } else {
     content = <>
       <section className="hero" aria-labelledby="hero-title">
         <div className="hero-content">
-          <p className="eyebrow">YOUR FISHING JOURNAL</p>
-          <h1 id="hero-title">Every catch<br />has a <em>story.</em></h1>
-          <p className="hero-description">Log your catches, remember your favorite fishing spots, and hold onto the stories that brought you there.</p>
+          <p className="eyebrow">WELCOME TO FISHTORIES</p>
+          <h1 id="hero-title">Fish smarter with <span>Fishtories</span></h1>
+          <p className="hero-description">
+            Whether you are an angling amateur or a seasoned pro, Fishtories provides the tools
+            and information you need to make the most of every trip to the water. See what other
+            anglers have been catching on our community catch map, keep track of your best spots,
+            and share your stories with other anglers.
+          </p>
           <button type="button" className="button button-primary hero-cta" onClick={() => navigate(user ? '/profile' : '/register')}>
-            {user ? 'View your profile' : 'Get started — it’s free'}
+            {user ? 'Go to your profile' : 'Start fishing smarter — it’s free'}
           </button>
           <div className={`status status--${apiState.kind}`} role="status">
             <span className="status-dot" /> {apiState.message}
@@ -133,20 +154,45 @@ export default function App() {
         <div>
           <p className="eyebrow eyebrow-dark">BUILT FOR ANGLERS</p>
           <h2 id="next-title">Your memories deserve a place to live.</h2>
-          <p>FishTories is your own fishing journal. Log your catches today, then revisit them on your profile. Maps, weather, and photos are on the way.</p>
+          <p>Fishtories is your personal fishing journal. Log catches, upload photos, save your favorite spots, and check the weather before your next trip.</p>
         </div>
         <div className="feature-list">
-          <div><span>01</span><strong>Your fishing profile</strong><small>Personal dashboard and stats</small></div>
-          <div><span>02</span><strong>Catch journal</strong><small>Save catches and manage your history</small></div>
-          <div><span>03</span><strong>Maps & weather</strong><small>Plan and commemorate fishing trips</small></div>
+          <div><span>01</span><strong>Your fishing profile</strong><small>Personal dashboard and statistics</small></div>
+          <div><span>02</span><strong>Catch journal</strong><small>Save photos, notes and your catch history</small></div>
+          <div><span>03</span><strong>Private or public catches</strong><small>You decide which fishing stories to share</small></div>
         </div>
+      </section>
+      <section className="community-teaser" aria-labelledby="community-title">
+        <div className="community-teaser-copy">
+          <p className="eyebrow">DISCOVER FISHING STORIES</p>
+          <h2 id="community-title">Explore the Community Catch Map.</h2>
+          <p>See catches anglers have chosen to share—along with their photos, stories and fishing locations. Your private catches always stay yours.</p>
+          <button type="button" className="button button-primary" onClick={() => navigate('/map')}>
+            Explore the Community Map <span aria-hidden="true">→</span>
+          </button>
+        </div>
+        <div className="community-map-preview" aria-hidden="true">
+          <span className="preview-river" />
+          <span className="preview-pin preview-pin-one">●</span>
+          <span className="preview-pin preview-pin-two">●</span>
+          <span className="preview-pin preview-pin-three">●</span>
+          <span className="preview-map-label">Shared stories from the water</span>
+        </div>
+      </section>
+      <section className="join-section" aria-labelledby="join-title">
+        <p className="eyebrow eyebrow-dark">THERE'S ROOM FOR ONE MORE</p>
+        <h2 id="join-title">Join nearly half a dozen other anglers.</h2>
+        <p>Keep your best fishing memories, discover shared catches, and make your next trip one to remember.</p>
+        <button type="button" className="button button-primary" onClick={() => navigate(user ? '/catches' : '/register')}>
+          {user ? 'Open your catch journal' : 'Join Fishtories — free'}
+        </button>
       </section>
     </>;
   }
 
   return (
-    <div className="app-shell">
-      <Navbar user={user} checkingSession={checkingSession} loggingOut={loggingOut} onNavigate={navigate} onLogout={handleLogout} />
+    <div className={`app-shell ${path === '/' ? 'app-shell--home' : ''}`}>
+      <Navbar user={user} avatarRevision={avatarRevision} checkingSession={checkingSession} loggingOut={loggingOut} onNavigate={navigate} onLogout={handleLogout} weather={weatherTools.weather} />
       {authError && <p className="auth-notice" role="alert">{authError}</p>}
       <main id="main-content">{content}</main>
       <Footer />

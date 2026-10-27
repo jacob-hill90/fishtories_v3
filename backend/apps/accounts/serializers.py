@@ -1,4 +1,4 @@
-"""Input validation for creating a FishTories account."""
+"""Input validation for creating a Fishtories account."""
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password

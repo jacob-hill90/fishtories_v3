@@ -1,4 +1,4 @@
-# FishTories v3 🐟
+# Fishtories v3 🐟
 
 A fresh, deliberately small monorepo for a fishing catch journal.
 
@@ -124,7 +124,7 @@ From the project root, after generating and committing migrations:
 ```bash
 git init
 git add .
-git commit -m "Initialize FishTories v3"
+git commit -m "Initialize Fishtories v3"
 ```
 
 You can create a **new empty** GitHub repository named `fishtories_v3` in your GitHub account, then run (replace `YOUR_USERNAME`):

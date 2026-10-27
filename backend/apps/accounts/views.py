@@ -1,4 +1,4 @@
-"""FishTories v3: registration, sessions, and a private dashboard endpoint."""
+"""Fishtories v3: registration, sessions, and a private dashboard endpoint."""
 
 import json
 
@@ -21,6 +21,9 @@ def public_user(user):
         "username": user.username,
         "email": user.email,
         "date_joined": user.date_joined.isoformat(),
+        # Safe to expose only to the signed-in user's browser. The endpoint
+        # itself always reads request.user; it never takes a user ID.
+        "avatar_url": "/api/auth/avatar/" if user.avatar else None,
     }
 
 

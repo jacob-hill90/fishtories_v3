@@ -1,4 +1,4 @@
-"""Real CSRF and cookie/session tests for the FishTories browser API."""
+"""Real CSRF and cookie/session tests for the Fishtories browser API."""
 import json
 
 from django.contrib.auth import get_user_model

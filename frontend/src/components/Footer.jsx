@@ -1,4 +1,4 @@
-import { TEAM_MEMBERS } from "../data/team.js";
+import { TEAM_MEMBERS } from '../data/team.js';
 
 export default function Footer() {
   return (
@@ -6,10 +6,10 @@ export default function Footer() {
       <div className="footer-inner">
         <div className="footer-about">
           <div className="footer-heading">
-            <span aria-hidden="true">🐟</span> FishTories
+            <img className="footer-logo" src="/fish_icon.ico" alt="" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = "/fish.svg"; }} /> Fishtories
           </div>
           <p>
-            FishTories began as a collaborative project designed by members of
+            Fishtories began as a collaborative project designed by members of
             Code Platoon’s Romeo Cohort. We created the original site to
             showcase our collective problem-solving and design skills. Our team
             members are U.S. military veterans or veteran spouses. If you have
@@ -52,7 +52,7 @@ export default function Footer() {
       </div>
 
       <div className="footer-bottom">
-        © {new Date().getFullYear()} FishTories
+        © {new Date().getFullYear()} Fishtories
       </div>
     </footer>
   );

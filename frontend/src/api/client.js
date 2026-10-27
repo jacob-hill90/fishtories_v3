@@ -1,5 +1,5 @@
 export async function getHealth({ signal } = {}) {
-  const response = await fetch("/api/health/", { signal });
+  const response = await fetch('/api/health/', { signal });
   if (!response.ok) throw new Error(`API returned HTTP ${response.status}`);
   return response.json();
 }
@@ -7,11 +7,8 @@ export async function getHealth({ signal } = {}) {
 // The Vite dev proxy makes /api same-origin; browser cookies are managed automatically.
 // Ask for a fresh token before EACH POST because Django rotates CSRF after login.
 async function getCsrfToken() {
-  const response = await fetch("/api/auth/csrf/", {
-    credentials: "same-origin",
-  });
-  if (!response.ok)
-    throw new Error("Could not contact the authentication service.");
+  const response = await fetch('/api/auth/csrf/', { credentials: 'same-origin' });
+  if (!response.ok) throw new Error('Could not contact the authentication service.');
   const data = await response.json();
   return data.csrfToken;
 }
@@ -19,83 +16,77 @@ async function getCsrfToken() {
 async function postJson(url, body = {}) {
   const csrfToken = await getCsrfToken();
   const response = await fetch(url, {
-    method: "POST",
-    credentials: "same-origin",
-    headers: { "Content-Type": "application/json", "X-CSRFToken": csrfToken },
+    method: 'POST',
+    credentials: 'same-origin',
+    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
     body: JSON.stringify(body),
   });
   const data = await response.json().catch(() => ({}));
   if (!response.ok) {
     const details = Object.entries(data)
       .map(([field, messages]) => {
-        const label =
-          field === "detail" ? "" : `${field.replaceAll("_", " ")}: `;
-        return `${label}${Array.isArray(messages) ? messages.join(" ") : String(messages)}`;
+        const label = field === 'detail' ? '' : `${field.replaceAll('_', ' ')}: `;
+        return `${label}${Array.isArray(messages) ? messages.join(' ') : String(messages)}`;
       })
-      .join(" ");
+      .join(' ');
     throw new Error(details || `Request failed (${response.status}).`);
   }
   return data;
 }
 
 export function registerUser({ username, email, password, passwordConfirm }) {
-  return postJson("/api/auth/register/", {
-    username,
-    email,
-    password,
-    password_confirm: passwordConfirm,
+  return postJson('/api/auth/register/', {
+    username, email, password, password_confirm: passwordConfirm,
   });
 }
 
 export function loginUser({ username, password }) {
-  return postJson("/api/auth/login/", { username, password });
+  return postJson('/api/auth/login/', { username, password });
 }
 
 export function logoutUser() {
-  return postJson("/api/auth/logout/");
+  return postJson('/api/auth/logout/');
 }
 
 export async function getCurrentUser({ signal } = {}) {
-  const response = await fetch("/api/auth/me/", {
-    credentials: "same-origin",
-    cache: "no-store",
+  const response = await fetch('/api/auth/me/', {
+    credentials: 'same-origin',
+    cache: 'no-store',
     signal,
   });
   if (response.status === 401) return null;
-  if (!response.ok)
-    throw new Error(`Could not load your session (${response.status}).`);
+  if (!response.ok) throw new Error(`Could not load your session (${response.status}).`);
   return response.json();
 }
 
 /** Dashboard data is always derived from the current cookie session. */
 export async function getDashboard({ signal } = {}) {
-  const response = await fetch("/api/auth/dashboard/", {
-    credentials: "same-origin",
-    cache: "no-store",
+  const response = await fetch('/api/auth/dashboard/', {
+    credentials: 'same-origin',
+    cache: 'no-store',
     signal,
   });
   if (response.status === 401) {
-    const error = new Error("Your session has expired. Please log in again.");
+    const error = new Error('Your session has expired. Please log in again.');
     error.status = 401;
     throw error;
   }
-  if (!response.ok)
-    throw new Error(`Could not load your dashboard (${response.status}).`);
+  if (!response.ok) throw new Error(`Could not load your dashboard (${response.status}).`);
   return response.json();
 }
 
 // Step 4: Private catch journal. Every request uses the current Django session.
 // Never accept an owner ID from the browser: the Django view assigns it.
-async function catchRequest(url, { method = "GET", body, signal } = {}) {
+async function catchRequest(url, { method = 'GET', body, signal } = {}) {
   const headers = {};
-  if (method !== "GET") {
-    headers["X-CSRFToken"] = await getCsrfToken();
+  if (method !== 'GET') {
+    headers['X-CSRFToken'] = await getCsrfToken();
   }
-  if (body !== undefined) headers["Content-Type"] = "application/json";
+  if (body !== undefined) headers['Content-Type'] = 'application/json';
   const response = await fetch(url, {
     method,
-    credentials: "same-origin",
-    cache: "no-store",
+    credentials: 'same-origin',
+    cache: 'no-store',
     headers,
     signal,
     ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
@@ -106,14 +97,11 @@ async function catchRequest(url, { method = "GET", body, signal } = {}) {
   if (!response.ok) {
     const message = Object.entries(data)
       .map(([field, value]) => {
-        const label =
-          field === "detail" ? "" : `${field.replaceAll("_", " ")}: `;
-        return `${label}${Array.isArray(value) ? value.join(" ") : String(value)}`;
+        const label = field === 'detail' ? '' : `${field.replaceAll('_', ' ')}: `;
+        return `${label}${Array.isArray(value) ? value.join(' ') : String(value)}`;
       })
-      .join(" ");
-    const error = new Error(
-      message || `Catch request failed (${response.status}).`,
-    );
+      .join(' ');
+    const error = new Error(message || `Catch request failed (${response.status}).`);
     error.status = response.status;
     throw error;
   }
@@ -121,33 +109,103 @@ async function catchRequest(url, { method = "GET", body, signal } = {}) {
 }
 
 export function getCatches({ signal } = {}) {
-  return catchRequest("/api/catches/", { signal });
+  return catchRequest('/api/catches/', { signal });
 }
 
 export function createCatch(values) {
-  return catchRequest("/api/catches/", { method: "POST", body: values });
+  return catchRequest('/api/catches/', { method: 'POST', body: values });
 }
 
 export function updateCatch(id, values) {
   return catchRequest(`/api/catches/${encodeURIComponent(id)}/`, {
-    method: "PATCH",
-    body: values,
+    method: 'PATCH', body: values,
   });
 }
 
 export function deleteCatch(id) {
-  return catchRequest(`/api/catches/${encodeURIComponent(id)}/`, {
-    method: "DELETE",
-  });
+  return catchRequest(`/api/catches/${encodeURIComponent(id)}/`, { method: 'DELETE' });
 }
 
 // Public, read-only Fish Database. Server returns up to 75 matching species.
-export async function getFishSpecies(query = "", { signal } = {}) {
+export async function getFishSpecies(query = '', { signal } = {}) {
   const params = new URLSearchParams();
-  if (query.trim()) params.set("q", query.trim());
-  const url = `/api/fish/${params.toString() ? `?${params}` : ""}`;
+  if (query.trim()) params.set('q', query.trim());
+  const url = `/api/fish/${params.toString() ? `?${params}` : ''}`;
   const response = await fetch(url, { signal });
-  if (!response.ok)
-    throw new Error(`Unable to load the Fish Database (${response.status}).`);
+  if (!response.ok) throw new Error(`Unable to load the Fish Database (${response.status}).`);
   return response.json();
+}
+
+// Public community map: read-only and intentionally distinct from the private API.
+// This endpoint never sends account data or unpublished catch information.
+export async function getPublicCatches({ signal } = {}) {
+  const response = await fetch('/api/catches/public/', {
+    method: 'GET', cache: 'no-store', signal,
+  });
+  if (!response.ok) throw new Error(`Unable to load community catches (${response.status}).`);
+  return response.json();
+}
+
+
+// Photos are stored separately from catch JSON. They are retrieved only through
+// a permission-checked Django endpoint; no /media/ or public storage URLs.
+export async function uploadCatchPhoto(id, file) {
+  const token = await getCsrfToken();
+  const form = new FormData();
+  form.append('photo', file);
+  const response = await fetch(`/api/catches/${encodeURIComponent(id)}/photo/`, {
+    method: 'POST', credentials: 'same-origin', cache: 'no-store',
+    headers: { 'X-CSRFToken': token }, body: form,
+  });
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    const message = Array.isArray(result.photo) ? result.photo.join(' ') : result.detail;
+    throw new Error(message || `Photo upload failed (${response.status}).`);
+  }
+  return result;
+}
+
+export async function removeCatchPhoto(id) {
+  const token = await getCsrfToken();
+  const response = await fetch(`/api/catches/${encodeURIComponent(id)}/photo/`, {
+    method: 'DELETE', credentials: 'same-origin', cache: 'no-store',
+    headers: { 'X-CSRFToken': token },
+  });
+  if (!response.ok) throw new Error(`Could not remove photo (${response.status}).`);
+}
+
+
+// Private profile images; never use a public /media/ URL.
+export async function uploadProfileAvatar(file) {
+  const csrfToken = await getCsrfToken();
+  const form = new FormData();
+  form.append('avatar', file);
+  const response = await fetch('/api/auth/avatar/', {
+    method: 'POST', credentials: 'same-origin', cache: 'no-store',
+    headers: { 'X-CSRFToken': csrfToken }, body: form,
+  });
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    const error = new Error(
+      Array.isArray(result.avatar) ? result.avatar.join(' ') : result.detail || 'Could not upload profile picture.'
+    );
+    error.status = response.status;
+    throw error;
+  }
+  return result.user;
+}
+
+export async function removeProfileAvatar() {
+  const csrfToken = await getCsrfToken();
+  const response = await fetch('/api/auth/avatar/', {
+    method: 'DELETE', credentials: 'same-origin', cache: 'no-store',
+    headers: { 'X-CSRFToken': csrfToken },
+  });
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    const error = new Error(result.detail || `Could not remove picture (${response.status}).`);
+    error.status = response.status;
+    throw error;
+  }
+  return result.user;
 }

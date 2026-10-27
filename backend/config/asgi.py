@@ -1,4 +1,4 @@
-"""ASGI config for FishTories."""
+"""ASGI config for Fishtories."""
 import os
 from django.core.asgi import get_asgi_application
 

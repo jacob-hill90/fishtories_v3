@@ -7,4 +7,4 @@ from rest_framework.response import Response
 @permission_classes([AllowAny])
 def health_check(request):
     """Minimal public endpoint used by the React dev page."""
-    return Response({"app": "FishTories", "status": "ok"})
+    return Response({"app": "Fishtories", "status": "ok"})
