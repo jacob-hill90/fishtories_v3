@@ -1,0 +1,251 @@
+:root {
+  font-family:
+    Inter,
+    ui-sans-serif,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  color: #163641;
+  background: #f3f8f7;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  min-width: 320px;
+}
+button,
+input {
+  font: inherit;
+}
+a {
+  color: inherit;
+}
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.site-header {
+  padding: 24px clamp(24px, 7vw, 120px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #062d38;
+  color: #fff;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  font-size: 22px;
+  font-weight: 850;
+  letter-spacing: -0.65px;
+  gap: 10px;
+}
+.brand-icon {
+  font-size: 27px;
+}
+.brand-suffix {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #95edce;
+  margin-left: 1px;
+  align-self: flex-start;
+}
+.header-caption {
+  font-size: 13px;
+  color: #b6cfcf;
+}
+main {
+  flex: 1;
+}
+.hero {
+  background: #062d38;
+  color: #fff;
+  padding: 62px clamp(24px, 7vw, 120px) 110px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(250px, 0.76fr);
+  gap: 45px;
+  overflow: hidden;
+  align-items: center;
+}
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 690px;
+}
+.eyebrow {
+  color: #61e0b5;
+  font-size: 12px;
+  letter-spacing: 3px;
+  font-weight: 800;
+  margin: 0 0 23px;
+}
+h1 {
+  font-size: clamp(60px, 7vw, 112px);
+  line-height: 1.02;
+  letter-spacing: -5px;
+  margin: 0 0 28px;
+  font-weight: 800;
+}
+h1 em {
+  font-style: normal;
+  color: #78edcb;
+}
+.hero-description {
+  line-height: 1.7;
+  color: #c4d9d9;
+  max-width: 520px;
+  font-size: clamp(16px, 1.6vw, 19px);
+}
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13px;
+  border: 1px solid #598087;
+  border-radius: 999px;
+  padding: 12px 18px;
+  margin-top: 24px;
+  color: #ddeced;
+}
+.status-dot {
+  display: inline-block;
+  height: 9px;
+  width: 9px;
+  border-radius: 50%;
+  background: #eabf6b;
+}
+.status--connected .status-dot {
+  background: #62e4ad;
+  box-shadow: 0 0 0 4px #62e4ad27;
+}
+.status--error .status-dot {
+  background: #f18e8e;
+}
+.hero-art {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 350px;
+  isolation: isolate;
+}
+.orb {
+  position: absolute;
+  border-radius: 50%;
+}
+.orb-one {
+  width: 370px;
+  height: 370px;
+  background: radial-gradient(circle at 30% 25%, #2c9c95, #0d4c5b 70%);
+  box-shadow: 0 0 100px #0d81964f;
+}
+.orb-two {
+  width: 270px;
+  height: 270px;
+  border: 1px solid #9decd770;
+  box-shadow:
+    0 0 0 30px #a8ffef09,
+    0 0 0 60px #a8ffef09;
+}
+.fish-illustration {
+  position: relative;
+  font-size: 145px;
+  filter: drop-shadow(0 18px 30px #021b2680);
+  transform: rotate(-16deg);
+}
+.coming-next {
+  max-width: 1380px;
+  margin: auto;
+  padding: 72px clamp(24px, 7vw, 120px) 85px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+}
+.eyebrow-dark {
+  color: #15826f;
+}
+h2 {
+  font-size: clamp(30px, 3vw, 45px);
+  line-height: 1.15;
+  letter-spacing: -1.5px;
+  margin: 0 0 18px;
+}
+.coming-next p:not(.eyebrow) {
+  line-height: 1.75;
+  max-width: 540px;
+  color: #52656b;
+}
+.feature-list {
+  display: grid;
+  gap: 12px;
+}
+.feature-list div {
+  border: 1px solid #d8e8e4;
+  border-radius: 12px;
+  padding: 16px 20px;
+  background: white;
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  align-items: center;
+}
+.feature-list span {
+  grid-row: span 2;
+  color: #1b8c77;
+  font-size: 13px;
+  font-weight: 800;
+}
+.feature-list strong {
+  font-size: 16px;
+}
+.feature-list small {
+  color: #687e81;
+  font-size: 13px;
+  margin-top: 4px;
+}
+footer {
+  text-align: center;
+  padding: 27px;
+  background: #e7f1ee;
+  color: #68817f;
+  font-size: 12px;
+}
+@media (max-width: 780px) {
+  .site-header {
+    padding: 22px 24px;
+  }
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 62px 24px 65px;
+    gap: 4px;
+  }
+  h1 {
+    letter-spacing: -3px;
+  }
+  .hero-art {
+    min-height: 210px;
+  }
+  .orb-one {
+    width: 210px;
+    height: 210px;
+  }
+  .orb-two {
+    width: 155px;
+    height: 155px;
+  }
+  .fish-illustration {
+    font-size: 95px;
+  }
+  .coming-next {
+    grid-template-columns: 1fr;
+    padding: 55px 24px 65px;
+    gap: 22px;
+  }
+}

@@ -1,0 +1,125 @@
+
+# ==========================================
+# FishTories v3 - Git Ignore
+# ==========================================
+
+
+# ------------------------------------------
+# Python / Django
+# ------------------------------------------
+
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+
+# Python virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python testing and caching
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+
+# ------------------------------------------
+# Django Generated Files
+# ------------------------------------------
+
+# SQLite database and related files
+*.sqlite3
+*.sqlite3-*
+*.db
+
+# User-uploaded media
+media/
+uploads/
+
+# Collected static files (production)
+staticfiles/
+
+# Django / Python log files
+*.log
+
+
+# ------------------------------------------
+# React / Vite / Node.js
+# ------------------------------------------
+
+node_modules/
+dist/
+dist-ssr/
+.vite/
+
+# Test coverage
+coverage/
+
+# Package manager logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local npm cache
+.npm/
+
+
+# ------------------------------------------
+# Environment Variables / Secrets
+# ------------------------------------------
+
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Private keys and certificates
+*.pem
+*.key
+
+
+# ------------------------------------------
+# IDE / Editor
+# ------------------------------------------
+
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+
+# ------------------------------------------
+# macOS / Windows
+# ------------------------------------------
+
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+Desktop.ini
+
+
+# ------------------------------------------
+# Temporary Files
+# ------------------------------------------
+
+tmp/
+temp/
+*.tmp
+*.bak
+
+
+# ------------------------------------------
+# Deployment / Hosting
+# ------------------------------------------
+
+.vercel/
+.netlify/
